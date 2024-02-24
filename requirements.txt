@@ -20,4 +20,4 @@ Pillow
 pytesseract
 pytest-shutil
 pyxlsb
-pythonjsonlogger
+python-json-logger
