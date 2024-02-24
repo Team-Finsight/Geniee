@@ -22,3 +22,4 @@ pytest-shutil
 pyxlsb
 python-json-logger
 Flask
+Flask-Cors
