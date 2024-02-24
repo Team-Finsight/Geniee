@@ -24,3 +24,4 @@ python-json-logger
 Flask
 Flask-Cors
 openpyxl
+chromadb
