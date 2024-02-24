@@ -19,3 +19,4 @@ PyMuPDF
 Pillow
 pytesseract
 pytest-shutil
+pyxlsb
