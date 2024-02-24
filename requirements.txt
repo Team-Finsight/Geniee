@@ -1,11 +1,8 @@
-pydantic==2.4.2
 langchain==0.0.316
 streamlit_chat
 streamlit
 openai
-pandasai
-pydantic==2.4.2
-langchain==0.0.316
+pandasai==1.5.19
 accelerate
 sentence_transformers
 streamlit_chat
@@ -18,7 +15,6 @@ python-dotenv
 replicate
 docx2txt
 text_generation
-openai==0.28.1
 PyMuPDF
 Pillow
 pytesseract
