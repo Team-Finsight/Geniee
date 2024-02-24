@@ -21,3 +21,4 @@ pytesseract
 pytest-shutil
 pyxlsb
 python-json-logger
+Flask
