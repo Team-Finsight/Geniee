@@ -23,3 +23,4 @@ pyxlsb
 python-json-logger
 Flask
 Flask-Cors
+openpyxl
