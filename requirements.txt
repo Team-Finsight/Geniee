@@ -25,3 +25,4 @@ Flask
 Flask-Cors
 openpyxl
 chromadb
+sqlite3 == 3.35.0
