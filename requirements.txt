@@ -1,6 +1,5 @@
 streamlit_chat
 streamlit
-openai
 pandasai==1.5.19
 accelerate
 sentence_transformers
@@ -25,3 +24,4 @@ Flask-Cors
 openpyxl
 chromadb==0.3.29
 langchain==0.0.316
+openai==0.28.1
