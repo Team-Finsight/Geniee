@@ -26,3 +26,4 @@ chromadb==0.3.29
 langchain==0.0.316
 openai==0.28.1
 streamlit-authenticator==0.1.5
+plotly
