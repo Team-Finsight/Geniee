@@ -48,47 +48,48 @@ class StreamlitResponse(ResponseParser):
 
 def display_data_ai_session():
     """Display UI for Data-AI session."""
-    st.subheader("Data-AI Session")
+    st.subheader("Data-Geniee")
     data_files = st.sidebar.file_uploader("Upload your data file", type=['csv', 'xlsx'], accept_multiple_files=True)
     if data_files:
         sheet_options = {}
+        loaded_data = {}  # Initialize a dictionary to hold loaded data for all files
         for data_file in data_files:
-            if data_file.type in ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel"]:
+            if data_file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" or data_file.type == "application/vnd.ms-excel":
                 xls = pd.ExcelFile(data_file)
                 for sheet_name in xls.sheet_names:
                     # Unique key for each sheet across all files
                     key = f"{data_file.name} - {sheet_name}"
                     sheet_options[key] = (data_file, sheet_name)
+            elif data_file.type == "text/csv":
+                # Directly load CSV files without sheet selection
+                df = pd.read_csv(data_file)
+                key = f"{data_file.name}"
+                loaded_data[key] = df
 
-        selected_sheets = st.multiselect("Select sheets to load", options=list(sheet_options.keys()))
+        if sheet_options:
+            selected_sheets = st.multiselect("Select sheets to load", options=list(sheet_options.keys()))
+            if selected_sheets:
+                selected_sheets_info = {key: sheet_options[key] for key in selected_sheets}
+                loaded_data.update(load_sheet_data(selected_sheets_info))
 
-        if selected_sheets:
-            selected_sheets_info = {key: sheet_options[key] for key in selected_sheets}
-            loaded_data = load_sheet_data(selected_sheets_info)
-
+        if loaded_data:
+            # Processing loaded data with SmartDataframe or SmartDatalake
             if len(loaded_data) > 1:
-                # Use SmartDatalake for multiple sheets
+                # Use SmartDatalake for multiple sheets or files
                 sdl = SmartDatalake(list(loaded_data.values()), config={"llm": OpenAI(api_token=api_key),"save_charts": True,"save_charts_path": r"\Charts", "verbose": True, "response_parser": StreamlitResponse})
-                # Example of using sdl
-                st.write("Loaded data into SmartDatalake")
             else:
-                # Use SmartDataframe for a single sheet
+                # Use SmartDataframe for a single sheet or file
                 sdf = SmartDataframe(next(iter(loaded_data.values())), config={"llm": OpenAI(api_token=api_key),"save_charts": True,"save_charts_path": r"\Charts", "verbose": True, "response_parser": StreamlitResponse})
-                # Example of using sdf
-                st.write("Loaded data into SmartDataframe")
 
-            # Display data preview for selected sheets
+            # Display data preview for selected sheets or files
             for key, data in loaded_data.items():
                 st.write(f"Data Preview for {key}:", data.head())
-            user_query = st.text_input("Ask a question about your data")
-            # Assuming user queries are to be made per sheet
 
+            user_query = st.text_input("Ask a question about your data")
             if user_query:
                 if len(loaded_data) > 1:
                     response = sdl.chat(user_query)
                 else:
                     response = sdf.chat(user_query)
-
-    else:
-        st.info("Upload one or more files.")
-
+        else:
+            st.info("Upload one or more files.")
