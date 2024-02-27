@@ -14,6 +14,7 @@ from langchain.prompts import SystemMessagePromptTemplate, ChatPromptTemplate, H
 import fitz
 import logging
 from pythonjsonlogger import jsonlogger
+from docx import Document
 
 def setup_logging(level=logging.INFO):
     log_handler = logging.StreamHandler()
@@ -72,12 +73,16 @@ def ocr_pdf_to_text(pdf_path):
         print(f"Error during OCR processing of PDF: {e}")
         return ""
 
+
+
 def extract_text_from_docx(docx_path):
     try:
-        # Use WordLoader to extract text from DOCX
-        loader = Docx2txtLoader()
-        text = loader.load(docx_path)
-        return text
+        doc = Document(docx_path)
+        fullText = []
+        for para in doc.paragraphs:
+            fullText.append(para.text)
+        print(fullText)
+        return '\n'.join(fullText)
     except Exception as e:
         print(f"Error during DOCX processing: {e}")
         return ""
