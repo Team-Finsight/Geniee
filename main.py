@@ -19,6 +19,7 @@ def extract_text(file_buffer, file_name):
             with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file_name)[1]) as temp_file:
                 temp_file.write(file_buffer.read())
                 temp_file.flush()
+                print("tempfile name:",temp_file.name)
                 if temp_file.name.lower().endswith(('.png', '.jpg', '.jpeg')):
                     text = extract_text_from_image(temp_file.name)
                 elif temp_file.name.lower().endswith('.pdf'):
@@ -36,6 +37,7 @@ def extract_text(file_buffer, file_name):
     return text
 def display_chat_ui(chat, chat_function):
     """ Generic function to display chat UI. """
+    st.subheader("Chat-Geniee")
     reply_container = st.container()
     container = st.container()
 
@@ -90,6 +92,7 @@ def update_chat_history(user_input,response):
 
 def display_chat_with_documents():
     """ Display chat interface for document-based conversations. """
+    st.subheader("Doc-Geniee")
     file_buffer = st.sidebar.file_uploader("Upload a file", type=['txt', 'pdf', 'png', 'jpg', 'jpeg', 'docx', 'doc'])
     if file_buffer is not None:
         text = ""
@@ -160,14 +163,14 @@ def initialize_session_state():
 
 def main():
     initialize_session_state()
-    st.title("Geniee🫡")
-    chat_mode = st.sidebar.radio("Choose your interaction mode:", ['General Chat', 'Chat with Documents', 'Data-AI'])
+    st.title("Geniee🌀")
+    chat_mode = st.sidebar.radio("Choose your interaction mode:", ['Chat-Geniee', 'Doc-Geniee', 'Data-Geniee'])
 
-    if chat_mode == 'General Chat':
+    if chat_mode == 'Chat-Geniee':
         display_chat_ui(chat, update_chat_history)
-    elif chat_mode == 'Chat with Documents':
+    elif chat_mode == 'Doc-Geniee':
         display_chat_with_documents()
-    elif chat_mode == 'Data-AI':
+    elif chat_mode == 'Data-Geniee':
         display_data_ai_session()
 
 if __name__ == "__main__":
