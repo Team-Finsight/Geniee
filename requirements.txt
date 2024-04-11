@@ -29,3 +29,4 @@ streamlit-authenticator==0.1.5
 plotly
 python-docx
 seaborn
+xlsxwriter
