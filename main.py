@@ -173,5 +173,6 @@ def main():
     elif chat_mode == 'Data-Geniee':
         display_data_ai_session()
 
+
 if __name__ == "__main__":
     main()
